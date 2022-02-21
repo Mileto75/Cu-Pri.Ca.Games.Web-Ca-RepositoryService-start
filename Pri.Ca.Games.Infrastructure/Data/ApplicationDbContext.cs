@@ -28,6 +28,8 @@ namespace Pri.Ca.Games.Infrastructure.Data
             modelBuilder.Entity<Genre>().Property(e => e.Name)
                 .HasMaxLength(250)
                 .IsRequired();
+        
+            
 
             Seeder.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);

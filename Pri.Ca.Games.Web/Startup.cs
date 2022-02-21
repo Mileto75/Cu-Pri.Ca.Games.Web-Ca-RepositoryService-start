@@ -5,7 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pri.Ca.Games.Core.Interfaces.Repositories;
+using Pri.Ca.Games.Core.Interfaces.Services;
+using Pri.Ca.Games.Core.Services;
 using Pri.Ca.Games.Infrastructure.Data;
+using Pri.Ca.Games.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +32,14 @@ namespace Pri.Ca.Games.Web
             //dbcontext injecteren
             services.AddDbContext<ApplicationDbContext>(options => options
             .UseSqlServer(Configuration.GetConnectionString("GamesDb")));
+            //register repository classes
+            services.AddScoped<IGameRepository, GameRepository>();
+            //register the service classes
+            services.AddScoped<IGameService, GameService>();
             services.AddControllersWithViews();
         }
 
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -1,6 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeIndexViewModel
+
+@if (Model.Errors.Count() > 0)
+{   
+    foreach(var error in Model.Errors)
+    {
+        <p class="text-danger">@error</p>
+    }
 }
+<table class="table table-responsive-md table-hover">
+    <tr><th>Game</th></tr>
+    @foreach(var game in Model.Games)
+    {
+        <tr>
+            <td>@game.Name</td>
+        </tr>
+    }
+
+</table>
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
