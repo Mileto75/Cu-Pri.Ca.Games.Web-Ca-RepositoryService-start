@@ -19,9 +19,34 @@ namespace Pri.Ca.Games.Core.Services
         {
             _gameRepository = gameRepository;
         }
-        public Task<GameResultModel> GetGameByIdAsync(int id)
+        public async Task<GameResultModel> GetGameByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            //resultModel
+            var gameResultModel = new GameResultModel();
+            if(id < 1)
+            {
+                //gameResultModel.IsSuccess = false;
+                gameResultModel.ValidationErrors = new List<ValidationResult>
+                { new ValidationResult("Game not found")};
+                return gameResultModel;
+            }
+
+            //get the game
+            var game = await _gameRepository.GetGameByIdAsync(id);
+            //perform null check
+            if(game == null)
+            {
+                //gameResultModel.IsSuccess = false;
+                gameResultModel.ValidationErrors = new List<ValidationResult>
+                { new ValidationResult("Game not found")};
+                return gameResultModel;
+            }
+            //if we get here, everything is ok
+            gameResultModel.Games = new List<Game> {
+                game
+            };
+            gameResultModel.IsSuccess = true;
+            return gameResultModel;
         }
 
         public async Task<GameResultModel> GetGamesAsync()
